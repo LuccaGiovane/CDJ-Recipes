@@ -1,10 +1,15 @@
 <div class="recipe recipe-list-item">
     <div class="recipe-list-cover">
-        <img src="{{recipe.cover.url}}" alt="imagem">
+        <a href="{% url "recipes:recipe" recipe.id %}">
+            <img src="{{recipe.cover.url}}" alt="imagem">
+        </a>
     </div>
     
     <div class="recipe-title-container">
-        <h2 class="recipe-title">{{recipe.title}}</h2>
+        <h2 class="recipe-title">
+            <a href="{% url "recipes:recipe" recipe.id %}">
+                {{recipe.title}}</h2>
+            </a>
     </div>
     <div class="recipe-author">
         <span class="recipe-author-item">
@@ -40,10 +45,19 @@
             </div>
         </div>
     </div>
-    <footer class="recipe-footer">
-        <a class="recipe-read-more button button-dark button-full-width" href="/recipes/3/">
-            <i class="fas fa-eye"></i>
-            <span>ver mais...</span>
-        </a>
-    </footer>
+
+    {% if is_detail_page is not True %}
+        <footer class="recipe-footer">
+            <a class="recipe-read-more button button-dark button-full-width" href="{% url "recipes:recipe" recipe.id %}">
+                <i class="fas fa-eye"></i>
+                <span>ver mais...</span>
+            </a>
+        </footer>
+    {% endif %}
+
+    {% if is_detail_page is True %}
+        <div class="preparation_steps">
+            {{ recipe.preparation_steps | linebreaks}}
+        </div>
+    {% endif %}
 </div>
